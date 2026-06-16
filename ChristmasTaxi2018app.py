@@ -156,12 +156,12 @@ with source_tab:
     st.markdown("""
     **Trip data source:** NYC Taxi & Limousine Commission / NYC Open Data, 2018 Yellow Taxi Trip Data.  
     **Original trip-data URL:** https://data.cityofnewyork.us/Transportation/2018-Yellow-Taxi-Trip-Data/t29m-gskq  
-    **Taxi zone lookup:** TLC taxi zone lookup table, used to translate `PULocationID` and `DOLocationID` into borough, zone, and service-zone fields.
+    **Taxi zone lookup:** TLC taxi zone lookup table, used to translate `PULocationID` and `DOLocationID` into borough, zone, and service-zone fields.    
     **Lookup-table NYC.gov source URL:** https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
     **Access dates:** June 15, June 16 2026.  
     **Dataset scope used here:** Christmas Eve–Christmas Day 2018 yellow taxi trips, one row per taxi trip.  
     **Terms-of-Use:** https://www.nyc.gov/main/terms-of-use    
-    **Refresh plan:** Download newer TLC monthly yellow taxi trip records, filter to the same holiday dates or another target period, apply the same feature-engineering steps, and keep joining against the TLC taxi zone lookup table so geography remains readable.
+    **How to Refresh Data:** Filter NYC Taxi & Limousinze Commission / NYC Open Data for ease of viewing and download. Keep joining against the TLC taxi zone lookup table so geography remains legible.
     """)
     st.caption("The plausible trip filter is optional so viewers can compare raw vs. cleaned patterns rather than silently hiding data-quality issues. Taxi zone labels are joined from the TLC lookup table using pickup and dropoff location IDs.")
     c1, c2 = st.columns([1, 1])
