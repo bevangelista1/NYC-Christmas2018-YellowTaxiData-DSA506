@@ -17,18 +17,11 @@ The app joins the lookup table twice:
 
 This allows the dashboard to show top pickup zones, top dropoff zones, pickup/dropoff borough filters, and a pickup-borough vs. dropoff-borough heatmap.
 
-## Files
-- `app.py` — Streamlit dashboard with TLC taxi zone lookup integration
-- `taxi_christmas_2018_cleaned.csv.gz` — cleaned/enriched trip dataset derived from the Excel workbook
-- `requirements.txt` — packages needed by Streamlit Cloud
-- `written_summary_draft.md` — draft 2–3 page written summary updated for taxi zones
-- `video_script.md` — short presentation script/story arc updated for taxi zones
-
 ## Streamlit Cloud deployment steps
 1. Create a new GitHub repository, for example `nyc-taxi-holiday-dashboard`.
-2. Upload `app.py`, `requirements.txt`, and `taxi_christmas_2018_cleaned.csv.gz` to the repository root.
+2. Upload `ChristmasTaxi2018app.py`, `requirements.txt`, and `taxi_christmas_2018_cleaned.csv.gz` to the repository root.
 3. Go to Streamlit Community Cloud and connect your GitHub account.
-4. Select the repository and set the main file path to `app.py`.
+4. Select the repository and set the main file path to `ChristmasTaxi2018app.py`.
 5. Deploy and open the public app URL to verify it loads.
 
 ## Data notes
