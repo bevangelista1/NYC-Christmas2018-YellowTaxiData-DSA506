@@ -154,18 +154,18 @@ with study_tab:
 with source_tab:
     st.subheader("Data source, access, and sustainability")
     st.markdown("""
-**Trip data source:** NYC Taxi & Limousine Commission / NYC Open Data, 2018 Yellow Taxi Trip Data.  
-**Original trip-data URL:** https://data.cityofnewyork.us/Transportation/2018-Yellow-Taxi-Trip-Data/t29m-gskq  
-**Taxi zone lookup:** TLC taxi zone lookup table, used to translate `PULocationID` and `DOLocationID` into borough, zone, and service-zone fields.  
-**Lookup-table NYC.gov source URL:** https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
-**Access date for this project file:** June 2026.  
-**Dataset scope used here:** Christmas Eve–Christmas Day 2018 yellow taxi trips, one row per taxi trip.  
-**Terms:** Public NYC Open Data / City of New York terms of use should be reviewed before publication.  
-**Terms-of-Use URL:** https://www.nyc.gov/main/terms-of-use
-**Refresh plan:** Download newer TLC monthly yellow taxi trip records, filter to the same holiday dates or another target period, apply the same feature-engineering steps, and keep joining against the TLC taxi zone lookup table so geography remains readable.
-""")
-st.caption("The plausible trip filter is optional so viewers can compare raw vs. cleaned patterns rather than silently hiding data-quality issues. Taxi zone labels are joined from the TLC lookup table using pickup and dropoff location IDs.")
-c1, c2 = st.columns([1, 1])
+    **Trip data source:** NYC Taxi & Limousine Commission / NYC Open Data, 2018 Yellow Taxi Trip Data.  
+    **Original trip-data URL:** https://data.cityofnewyork.us/Transportation/2018-Yellow-Taxi-Trip-Data/t29m-gskq  
+    **Taxi zone lookup:** TLC taxi zone lookup table, used to translate `PULocationID` and `DOLocationID` into borough, zone, and service-zone fields.  
+    **Lookup-table NYC.gov source URL:** https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
+    **Access date for this project file:** June 2026.  
+    **Dataset scope used here:** Christmas Eve–Christmas Day 2018 yellow taxi trips, one row per taxi trip.  
+    **Terms:** Public NYC Open Data / City of New York terms of use should be reviewed before publication.  
+    **Terms-of-Use URL:** https://www.nyc.gov/main/terms-of-use
+    **Refresh plan:** Download newer TLC monthly yellow taxi trip records, filter to the same holiday dates or another target period, apply the same feature-engineering steps, and keep joining against the TLC taxi zone lookup table so geography remains readable.
+    """)
+    st.caption("The plausible trip filter is optional so viewers can compare raw vs. cleaned patterns rather than silently hiding data-quality issues. Taxi zone labels are joined from the TLC lookup table using pickup and dropoff location IDs.")
+    c1, c2 = st.columns([1, 1])
     missing = df.isna().mean().reset_index()
     missing.columns = ["Column", "Missing share"]
     c1.plotly_chart(px.bar(missing, x="Column", y="Missing share", title="Missing values by column"), use_container_width=True)
