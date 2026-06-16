@@ -73,7 +73,7 @@ k3.metric("Median duration", f"{f['trip_duration_min'].median():.1f} min" if len
 k4.metric("Median total fare", f"${f['total_amount'].median():.2f}" if len(f) else "—")
 k5.metric("Median tip %", f"{f['tip_pct'].median():.1f}%" if len(f) else "—")
 
-quest_tab, understand_tab, explore_tab, study_tab, source_tab = st.tabs(["Overview & FAQ", "Taxi Trip Metrics", "Trip Patterns", "Data Source"])
+quest_tab, explore_tab, study_tab, source_tab = st.tabs(["Overview & FAQ", "Taxi Trip Metrics", "Trip Patterns", "Data Source"])
 
 with quest_tab:
     st.subheader("How does NYC move on Christmas Eve and Christmas Day?")
