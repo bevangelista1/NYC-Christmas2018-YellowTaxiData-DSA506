@@ -131,7 +131,7 @@ with study_tab:
     c2.plotly_chart(px.scatter(sample, x="trip_distance", y="total_amount", color="payment_label", opacity=0.35, title="Fare vs. trip distance", labels={"trip_distance":"Distance (miles)", "total_amount":"Total amount ($)", "payment_label":"Payment"}), use_container_width=True)
     c3, c4 = st.columns(2)
     c3.plotly_chart(px.box(f, x="payment_label", y="tip_pct", points=False, title="Recorded tip percentage by payment type", labels={"tip_pct":"Tip as % of fare", "payment_label":"Payment"}), use_container_width=True)
-    top_n = st.slider("Number of top pickup/dropoff zones to show", 5, 25, 10)
+   # top_n = st.slider("Number of top pickup/dropoff zones to show", 5, 25, 10)
     pu = f["PU_Label"].value_counts().head(top_n).reset_index(); pu.columns=["Pickup zone", "Trips"]
     do = f["DO_Label"].value_counts().head(top_n).reset_index(); do.columns=["Dropoff zone", "Trips"]
     c4.plotly_chart(px.bar(pu, x="Trips", y="Pickup zone", orientation="h", title=f"Top {top_n} pickup zones"), use_container_width=True)
