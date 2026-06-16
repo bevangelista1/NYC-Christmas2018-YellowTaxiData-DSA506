@@ -40,13 +40,13 @@ df = load_data()
 st.title("🚕 NYC Yellow Taxi Trips: Christmas Eve–Christmas Day 2018")
 st.markdown("""
 This dashboard follows the **QUEST** exploratory data analysis structure: **Question, Understand, Explore, Study, Tell**.  
-The audience is a non-technical city operations or transportation planning audience interested in how holiday taxi demand, trip length, fare behavior, geography, and tipping patterns changed across Christmas Eve and Christmas Day.
+NYC Department of Transportation: How do holiday taxi demand, trip length, fare behavior, geography, and tipping patterns change across Christmas Eve and Christmas Day?
 """)
 
 st.sidebar.header("Interactive filters")
-min_dt = df["tpep_pickup_datetime"].min().to_pydatetime()
-max_dt = df["tpep_pickup_datetime"].max().to_pydatetime()
-start_dt, end_dt = st.sidebar.slider("Pickup date/time range", min_value=min_dt, max_value=max_dt, value=(min_dt, max_dt), format="MM/DD HH:mm")
+#min_dt = df["tpep_pickup_datetime"].min().to_pydatetime()
+#max_dt = df["tpep_pickup_datetime"].max().to_pydatetime()
+#start_dt, end_dt = st.sidebar.slider("Pickup date/time range", min_value=min_dt, max_value=max_dt, value=(min_dt, max_dt), format="MM/DD HH:mm")
 payment_opts = sorted(df["payment_label"].dropna().unique())
 selected_payments = st.sidebar.multiselect("Payment type", payment_opts, default=payment_opts)
 pickup_borough_options = sorted(df["PU_Borough"].dropna().unique())
@@ -148,10 +148,11 @@ with source_tab:
 **Trip data source:** NYC Taxi & Limousine Commission / NYC Open Data, 2018 Yellow Taxi Trip Data.  
 **Original trip-data URL:** https://data.cityofnewyork.us/Transportation/2018-Yellow-Taxi-Trip-Data/t29m-gskq  
 **Taxi zone lookup:** TLC taxi zone lookup table, used to translate `PULocationID` and `DOLocationID` into borough, zone, and service-zone fields.  
-**Lookup-table URL used by the app:** https://d37ci6vzurychx.cloudfront.net/misc/taxi_zone_lookup.csv  
+**Lookup-table NYC.gov source URL:** https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
 **Access date for this project file:** June 2026.  
 **Dataset scope used here:** Christmas Eve–Christmas Day 2018 yellow taxi trips, one row per taxi trip.  
 **Terms:** Public NYC Open Data / City of New York terms of use should be reviewed before publication.  
+**Terms-of-Use URL:** https://www.nyc.gov/main/terms-of-use
 **Refresh plan:** Download newer TLC monthly yellow taxi trip records, filter to the same holiday dates or another target period, apply the same feature-engineering steps, and keep joining against the TLC taxi zone lookup table so geography remains readable.
 """)
     st.dataframe(df.head(25), use_container_width=True)
