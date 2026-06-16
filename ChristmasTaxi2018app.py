@@ -42,7 +42,7 @@ st.markdown("""
 NYC Department of Transportation: How do holiday taxi demand, trip length, fare behavior, geography, and tipping patterns change across Christmas Eve and Christmas Day?
 """)
 
-st.sidebar.header("Interactive filters")
+st.sidebar.header("Filters")
 #min_dt = df["tpep_pickup_datetime"].min().to_pydatetime()
 #max_dt = df["tpep_pickup_datetime"].max().to_pydatetime()
 #start_dt, end_dt = st.sidebar.slider("Pickup date/time range", min_value=min_dt, max_value=max_dt, value=(min_dt, max_dt), format="MM/DD HH:mm")
@@ -78,7 +78,7 @@ quest_tab, explore_tab, study_tab, source_tab = st.tabs(["Overview & FAQ", "Taxi
 with quest_tab:
     st.subheader("How does NYC move on Christmas Eve and Christmas Day?")
     st.markdown("""
-Holiday taxi service is affected by shopping, travel, dining, tourism, airport movement, and late-night activity. A city transportation analyst or taxi fleet manager could use this dashboard to understand when demand concentrates, which boroughs and taxi zones dominate the holiday flow, and whether short-distance, payment, fare, and tipping behavior changes across the holiday period.
+Holiday taxi service is affected by shopping, travel, dining, tourism, airport movement, and late-night activity. Use this dashboard to understand when demand concentrates, which boroughs and taxi zones dominate the holiday flow, and whether short-distance, payment, fare, and tipping behavior changes across the holiday period.
 
 **FAQ:**
 1. When were yellow taxi pickups busiest during Christmas Eve and Christmas Day?
@@ -112,11 +112,11 @@ with explore_tab:
     c1, c2 = st.columns(2)
     c1.plotly_chart(px.histogram(f, x="trip_distance", nbins=60, title="Trip distance distribution", labels={"trip_distance":"Trip distance (miles)"}), use_container_width=True)
     c2.plotly_chart(px.histogram(f, x="total_amount", nbins=60, title="Total fare distribution", labels={"total_amount":"Total amount ($)"}), use_container_width=True)
-    c3, c4 = st.columns(2)
+    c3= st.columns(1)
     pay_counts = f["payment_label"].value_counts().reset_index()
-    pay_counts.columns = ["Payment type", "Trips"]
+    pay_counts.columns = ["Payment type"]
     c3.plotly_chart(px.bar(pay_counts, x="Payment type", y="Trips", title="Trips by payment type"), use_container_width=True)
-    c4.plotly_chart(px.box(f, x="pickup_day", y="trip_duration_min", points=False, title="Trip duration by pickup day", labels={"trip_duration_min":"Duration (min)", "pickup_day":"Pickup day"}), use_container_width=True)
+    #c4.plotly_chart(px.box(f, x="pickup_day", y="trip_duration_min", points=False, title="Trip duration by pickup day", labels={"trip_duration_min":"Duration (min)", "pickup_day":"Pickup day"}), use_container_width=True)
 
 with study_tab:
     st.subheader("Relationships and geographic patterns")
@@ -157,7 +157,7 @@ with source_tab:
     **Trip data source:** NYC Taxi & Limousine Commission / NYC Open Data, 2018 Yellow Taxi Trip Data.  
     **Original trip-data URL:** https://data.cityofnewyork.us/Transportation/2018-Yellow-Taxi-Trip-Data/t29m-gskq  
     **Taxi zone lookup:** TLC taxi zone lookup table, used to translate `PULocationID` and `DOLocationID` into borough, zone, and service-zone fields.    
-    **Lookup-table NYC.gov source URL:** https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
+    **Lookup-table NYC.gov source URL:** https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page    
     **Access dates:** June 15, June 16 2026.  
     **Dataset scope used here:** Christmas Eve–Christmas Day 2018 yellow taxi trips, one row per taxi trip.  
     **Terms-of-Use:** https://www.nyc.gov/main/terms-of-use    
