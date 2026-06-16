@@ -73,7 +73,7 @@ k3.metric("Median duration", f"{f['trip_duration_min'].median():.1f} min" if len
 k4.metric("Median total fare", f"${f['total_amount'].median():.2f}" if len(f) else "—")
 k5.metric("Median tip %", f"{f['tip_pct'].median():.1f}%" if len(f) else "—")
 
-quest_tab, understand_tab, explore_tab, study_tab, tell_tab, source_tab = st.tabs(["Q: Question", "U: Understand", "E: Explore", "S: Study", "T: Tell", "Data source"])
+quest_tab, understand_tab, explore_tab, study_tab, source_tab = st.tabs(["Overview & FAQ", "Taxi Trip Metrics", "Trip Patterns", "Data Source"])
 
 with quest_tab:
     st.subheader("How does NYC move on Christmas Eve and Christmas Day?")
@@ -86,23 +86,29 @@ Holiday taxi service is affected by shopping, travel, dining, tourism, airport m
 3. How do payment methods relate to recorded tipping behavior?
 4. Which pickup and dropoff taxi zones and borough-to-borough flows dominate holiday taxi movement?
 5. Are there unusual trips that should be interpreted carefully before making operational conclusions?
+
+**Things to keep in mind:**
+In Trip Patterns tab: Use hourly pickup patterns to plan driver availability during the strongest demand windows. Use pickup/dropoff zone and borough-flow charts to identify holiday travel concentrations. Treat extreme distances, very long durations, zero-distance trips, and negative fares as audit items rather than immediate operational conclusions.
+From this data, mainly electronic tips are recorded. "$0" may not be lack of generosity!
 """)
 
-with understand_tab:
-    st.subheader("Data audit")
-    c1, c2 = st.columns([1, 1])
-    missing = df.isna().mean().reset_index()
-    missing.columns = ["Column", "Missing share"]
-    c1.plotly_chart(px.bar(missing, x="Column", y="Missing share", title="Missing values by column"), use_container_width=True)
-    audit = pd.DataFrame({
-        "Metric": ["Original rows", "Original columns", "Rows after current filters", "Duplicate rows", "Earliest pickup", "Latest pickup"],
-        "Value": [f"{len(df):,}", f"{df.shape[1]:,}", f"{len(f):,}", f"{df.duplicated().sum():,}", str(df.tpep_pickup_datetime.min()), str(df.tpep_pickup_datetime.max())]
-    })
-    c2.dataframe(audit, hide_index=True, use_container_width=True)
-    st.caption("The plausible trip filter is optional so viewers can compare raw vs. cleaned patterns rather than silently hiding data-quality issues. Taxi zone labels are joined from the TLC lookup table using pickup and dropoff location IDs.")
-
+#with understand_tab:
+ #   st.subheader("Data audit")
+ #   c1, c2 = st.columns([1, 1])
+ #   missing = df.isna().mean().reset_index()
+ #   missing.columns = ["Column", "Missing share"]
+ #   c1.plotly_chart(px.bar(missing, x="Column", y="Missing share", title="Missing values by column"), use_container_width=True)
+ #   audit = pd.DataFrame({
+ #       "Metric": ["Original rows", "Original columns", "Rows after current filters", "Duplicate rows", "Earliest pickup", "Latest pickup"],
+ #       "Value": [f"{len(df):,}", f"{df.shape[1]:,}", f"{len(f):,}", f"{df.duplicated().sum():,}", str(df.tpep_pickup_datetime.min()), str(df.tpep_pickup_datetime.max())]
+ #   })
+ #   c2.dataframe(audit, hide_index=True, use_container_width=True)
+    
 with explore_tab:
     st.subheader("Individual variable patterns")
+    st.markdown("""
+    The distribution charts show whether the holiday period is dominated by short local rides or longer airport-style trips.
+    """)
     c1, c2 = st.columns(2)
     c1.plotly_chart(px.histogram(f, x="trip_distance", nbins=60, title="Trip distance distribution", labels={"trip_distance":"Trip distance (miles)"}), use_container_width=True)
     c2.plotly_chart(px.histogram(f, x="total_amount", nbins=60, title="Total fare distribution", labels={"total_amount":"Total amount ($)"}), use_container_width=True)
@@ -114,6 +120,10 @@ with explore_tab:
 
 with study_tab:
     st.subheader("Relationships and geographic patterns")
+    st.markdown("""
+    The hourly chart shows when demand concentrates.
+    The zone charts show the borough and neighborhood trends. 
+    """)
     hourly = f.groupby(["pickup_date", "pickup_hour"], as_index=False).agg(trips=("VendorID", "count"), median_fare=("total_amount", "median"), median_tip_pct=("tip_pct", "median"))
     c1, c2 = st.columns(2)
     c1.plotly_chart(px.line(hourly, x="pickup_hour", y="trips", color="pickup_date", markers=True, title="Pickup demand by hour", labels={"pickup_hour":"Pickup hour", "trips":"Trips"}), use_container_width=True)
@@ -129,17 +139,17 @@ with study_tab:
     borough_flow = f.groupby(["PU_Borough", "DO_Borough"], as_index=False).size().rename(columns={"size":"Trips"})
     st.plotly_chart(px.density_heatmap(borough_flow, x="PU_Borough", y="DO_Borough", z="Trips", histfunc="sum", title="Trips by pickup borough and dropoff borough", labels={"PU_Borough":"Pickup borough", "DO_Borough":"Dropoff borough", "Trips":"Trips"}), use_container_width=True)
 
-with tell_tab:
-    st.subheader("Synthesis for a non-technical audience")
-    st.markdown("""
-The holiday taxi story is about **timing, trip purpose, geography, and payment behavior**. Use the date/time and borough filters to compare Christmas Eve with Christmas Day and to isolate specific travel flows. The hourly chart shows when demand concentrates; the distribution charts show whether the holiday period is dominated by short local rides or longer airport-style trips; the zone charts translate numeric TLC IDs into more readable borough and neighborhood-style names; and the payment/tipping charts show that payment method strongly affects what can be observed about tips because cash tips are often not recorded in the meter data.
+#with tell_tab:
+ #   st.subheader("Synthesis for a non-technical audience")
+ #   st.markdown("""
+#The holiday taxi story is about **timing, trip purpose, geography, and payment behavior**. Use the date/time and borough filters to compare Christmas Eve with Christmas Day and to isolate specific travel flows. The hourly chart shows when demand concentrates; the distribution charts show whether the holiday period is dominated by short local rides or longer airport-style trips; the zone charts translate numeric TLC IDs into more readable borough and neighborhood-style names; and the payment/tipping charts show that payment method strongly affects what can be observed about tips because cash tips are often not recorded in the meter data.
 
-**Recommendations:**
-- Use hourly pickup patterns to plan driver availability during the strongest demand windows.
-- Use pickup/dropoff zone and borough-flow charts to identify holiday travel concentrations.
-- Treat extreme distances, very long durations, zero-distance trips, and negative fares as audit items rather than immediate operational conclusions.
-- Avoid interpreting cash tips as true zero generosity; the dataset mainly records electronic tip amounts.
-""")
+#**Recommendations:**
+#- Use hourly pickup patterns to plan driver availability during the strongest demand windows.
+#- Use pickup/dropoff zone and borough-flow charts to identify holiday travel concentrations.
+#- Treat extreme distances, very long durations, zero-distance trips, and negative fares as audit items rather than immediate operational conclusions.
+#- Avoid interpreting cash tips as true zero generosity; the dataset mainly records electronic tip amounts.
+#""")
 
 with source_tab:
     st.subheader("Data source, access, and sustainability")
@@ -154,4 +164,13 @@ with source_tab:
 **Terms-of-Use URL:** https://www.nyc.gov/main/terms-of-use
 **Refresh plan:** Download newer TLC monthly yellow taxi trip records, filter to the same holiday dates or another target period, apply the same feature-engineering steps, and keep joining against the TLC taxi zone lookup table so geography remains readable.
 """)
+st.caption("The plausible trip filter is optional so viewers can compare raw vs. cleaned patterns rather than silently hiding data-quality issues. Taxi zone labels are joined from the TLC lookup table using pickup and dropoff location IDs.")
+    c1, c2 = st.columns([1, 1])
+    missing = df.isna().mean().reset_index()
+    missing.columns = ["Column", "Missing share"]
+    c1.plotly_chart(px.bar(missing, x="Column", y="Missing share", title="Missing values by column"), use_container_width=True)
+    audit = pd.DataFrame({
+        "Metric": ["Original rows", "Original columns", "Rows after current filters", "Duplicate rows", "Earliest pickup", "Latest pickup"],
+        "Value": [f"{len(df):,}", f"{df.shape[1]:,}", f"{len(f):,}", f"{df.duplicated().sum():,}", str(df.tpep_pickup_datetime.min()), str(df.tpep_pickup_datetime.max())]
+    })
     st.dataframe(df.head(25), use_container_width=True)
