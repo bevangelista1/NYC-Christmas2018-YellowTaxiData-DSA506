@@ -44,8 +44,8 @@ NYC Department of Transportation: How do holiday taxi demand, trip length, fare 
 """)
 
 st.sidebar.header("Interactive filters")
-#min_dt = df["tpep_pickup_datetime"].min().to_pydatetime()
-#max_dt = df["tpep_pickup_datetime"].max().to_pydatetime()
+min_dt = df["tpep_pickup_datetime"].min().to_pydatetime()
+max_dt = df["tpep_pickup_datetime"].max().to_pydatetime()
 #start_dt, end_dt = st.sidebar.slider("Pickup date/time range", min_value=min_dt, max_value=max_dt, value=(min_dt, max_dt), format="MM/DD HH:mm")
 payment_opts = sorted(df["payment_label"].dropna().unique())
 selected_payments = st.sidebar.multiselect("Payment type", payment_opts, default=payment_opts)
