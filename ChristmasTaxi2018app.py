@@ -39,7 +39,6 @@ df = load_data()
 
 st.title("🚕 NYC Yellow Taxi Trips: Christmas Eve–Christmas Day 2018")
 st.markdown("""
-This dashboard follows the **QUEST** exploratory data analysis structure: **Question, Understand, Explore, Study, Tell**.  
 NYC Department of Transportation: How do holiday taxi demand, trip length, fare behavior, geography, and tipping patterns change across Christmas Eve and Christmas Day?
 """)
 
@@ -77,11 +76,11 @@ k5.metric("Median tip %", f"{f['tip_pct'].median():.1f}%" if len(f) else "—")
 quest_tab, understand_tab, explore_tab, study_tab, tell_tab, source_tab = st.tabs(["Q: Question", "U: Understand", "E: Explore", "S: Study", "T: Tell", "Data source"])
 
 with quest_tab:
-    st.subheader("Analytical mission")
+    st.subheader("How does NYC move on Christmas Eve and Christmas Day?")
     st.markdown("""
-**Decision context:** Holiday taxi service is affected by shopping, travel, dining, tourism, airport movement, and late-night activity. A city transportation analyst or taxi fleet manager could use this dashboard to understand when demand concentrates, which boroughs and taxi zones dominate the holiday flow, and whether short-distance, payment, fare, and tipping behavior changes across the holiday period.
+Holiday taxi service is affected by shopping, travel, dining, tourism, airport movement, and late-night activity. A city transportation analyst or taxi fleet manager could use this dashboard to understand when demand concentrates, which boroughs and taxi zones dominate the holiday flow, and whether short-distance, payment, fare, and tipping behavior changes across the holiday period.
 
-**Guiding questions:**
+**FAQ:**
 1. When were yellow taxi pickups busiest during Christmas Eve and Christmas Day?
 2. What do typical holiday trips look like in distance, duration, and fare amount?
 3. How do payment methods relate to recorded tipping behavior?
