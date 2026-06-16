@@ -165,7 +165,7 @@ with source_tab:
 **Refresh plan:** Download newer TLC monthly yellow taxi trip records, filter to the same holiday dates or another target period, apply the same feature-engineering steps, and keep joining against the TLC taxi zone lookup table so geography remains readable.
 """)
 st.caption("The plausible trip filter is optional so viewers can compare raw vs. cleaned patterns rather than silently hiding data-quality issues. Taxi zone labels are joined from the TLC lookup table using pickup and dropoff location IDs.")
-    c1, c2 = st.columns([1, 1])
+c1, c2 = st.columns([1, 1])
     missing = df.isna().mean().reset_index()
     missing.columns = ["Column", "Missing share"]
     c1.plotly_chart(px.bar(missing, x="Column", y="Missing share", title="Missing values by column"), use_container_width=True)
