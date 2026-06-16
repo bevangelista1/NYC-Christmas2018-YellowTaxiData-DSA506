@@ -112,11 +112,11 @@ with explore_tab:
     c1, c2 = st.columns(2)
     c1.plotly_chart(px.histogram(f, x="trip_distance", nbins=60, title="Trip distance distribution", labels={"trip_distance":"Trip distance (miles)"}), use_container_width=True)
     c2.plotly_chart(px.histogram(f, x="total_amount", nbins=60, title="Total fare distribution", labels={"total_amount":"Total amount ($)"}), use_container_width=True)
-    c3 = st.columns(1)
+    c3, c4 = st.columns(1)
     pay_counts = f["payment_label"].value_counts().reset_index()
     pay_counts.columns = ["Payment type", "Trips"]
     c3.plotly_chart(px.bar(pay_counts, x="Payment type", y="Trips", title="Trips by payment type"), use_container_width=True)
-    #c4.plotly_chart(px.box(f, x="pickup_day", y="trip_duration_min", points=False, title="Trip duration by pickup day", labels={"trip_duration_min":"Duration (min)", "pickup_day":"Pickup day"}), use_container_width=True)
+    c4.plotly_chart(px.box(f, x="pickup_day", y="trip_duration_min", points=False, title="Trip duration by pickup day", labels={"trip_duration_min":"Duration (min)", "pickup_day":"Pickup day"}), use_container_width=True)
 
 with study_tab:
     st.subheader("Relationships and geographic patterns")
