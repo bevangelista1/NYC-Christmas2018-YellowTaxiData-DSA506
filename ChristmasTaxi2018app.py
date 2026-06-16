@@ -44,8 +44,8 @@ NYC Department of Transportation: How do holiday taxi demand, trip length, fare 
 """)
 
 st.sidebar.header("Interactive filters")
-min_dt = df["tpep_pickup_datetime"].min().to_pydatetime()
-max_dt = df["tpep_pickup_datetime"].max().to_pydatetime()
+#min_dt = df["tpep_pickup_datetime"].min().to_pydatetime()
+#max_dt = df["tpep_pickup_datetime"].max().to_pydatetime()
 #start_dt, end_dt = st.sidebar.slider("Pickup date/time range", min_value=min_dt, max_value=max_dt, value=(min_dt, max_dt), format="MM/DD HH:mm")
 payment_opts = sorted(df["payment_label"].dropna().unique())
 selected_payments = st.sidebar.multiselect("Payment type", payment_opts, default=payment_opts)
@@ -58,7 +58,7 @@ distance_range = st.sidebar.slider("Trip distance range (miles)", 0.0, max(1.0, 
 keep_plausible = st.sidebar.checkbox("Use plausible trip filter", value=True, help="Keeps positive trips with duration ≤ 180 min, distance ≤ 100 miles, and nonnegative total amount.")
 
 f = df[
-    (df["tpep_pickup_datetime"].between(pd.Timestamp(start_dt), pd.Timestamp(end_dt))) &
+    #(df["tpep_pickup_datetime"].between(pd.Timestamp(start_dt), pd.Timestamp(end_dt))) &
     (df["payment_label"].isin(selected_payments)) &
     (df["trip_distance"].between(distance_range[0], distance_range[1])) &
     (df["PU_Borough"].isin(selected_pickup_boroughs)) &
