@@ -45,12 +45,12 @@ def load_data():
 
 df = load_data()
 
-st.title("🚕 NYC Yellow Taxi Trips: Christmas Eve–Christmas Day 2018 🎄")
+st.title("🚕 NYC Yellow Taxi Trips: Christmas Eve–Christmas Day 2018")
 
 st.markdown("""
-This dashboard looks at yellow taxi trips in New York City during Christmas Eve and Christmas Day 2018.
-The goal is to understand when taxi demand was highest, what typical trips looked like, and which areas
-had the most pickup and dropoff activity.
+This dashboard explores NYC yellow taxi trips from Christmas Eve and Christmas Day 2018.
+I focused on when trips were busiest, what the trips usually looked like, and which taxi zones
+appeared most often.
 """)
 
 st.sidebar.header("Filters")
@@ -93,34 +93,36 @@ k3.metric("Median duration", f"{f['trip_duration_min'].median():.1f} min" if len
 k4.metric("Median total fare", f"${f['total_amount'].median():.2f}" if len(f) else "—")
 k5.metric("Median tip %", f"{f['tip_pct'].median():.1f}%" if len(f) else "—")
 
-quest_tab, explore_tab, study_tab, source_tab = st.tabs([
+overview_tab, metrics_tab, patterns_tab, source_tab = st.tabs([
     "Overview & FAQ",
     "Taxi Trip Metrics",
     "Trip Patterns",
-    "Data Source Information"
+    "Data Source"
 ])
 
-with quest_tab:
+with overview_tab:
     st.subheader("How does NYC move during Christmas?")
 
     st.markdown("""
-    Holiday taxi travel can be affected by shopping, airport trips, tourism, restaurants, and late-night activity.
-    This dashboard focuses on three main questions:
+    Holiday taxi travel can be affected by shopping, airport trips, tourism, restaurants,
+    and late-night activity.
+
+    This dashboard focuses on three questions:
 
     1. When were yellow taxi pickups busiest?
     2. What did typical trips look like in distance, duration, and fare amount?
     3. Which pickup and dropoff areas had the most activity?
 
-    Some taxi records may have unusual distances, durations, or fare amounts, so the results should be read
-    as general patterns rather than perfect measurements.
+    Some taxi records may have unusual distances, durations, or fare amounts, so the results
+    should be read as general patterns rather than perfect measurements.
     """)
 
-with explore_tab:
+with metrics_tab:
     st.subheader("Taxi trip metrics")
 
     st.markdown("""
-    These charts show the overall shape of the taxi trips, including distance, fare amount,
-    payment type, and trip duration by day.
+    These charts show the overall pattern of taxi trips, including trip distance,
+    fare amount, and trip duration by day.
     """)
 
     c1, c2 = st.columns(2)
@@ -147,9 +149,7 @@ with explore_tab:
         use_container_width=True
     )
 
-    c3, c4 = st.columns(2)
-
-    c4.plotly_chart(
+    st.plotly_chart(
         px.box(
             f,
             x="pickup_day",
@@ -164,19 +164,19 @@ with explore_tab:
         use_container_width=True
     )
 
-with study_tab:
+with patterns_tab:
     st.subheader("Trip patterns")
 
     st.markdown("""
-    This section looks at when pickups happened and which taxi zones were most common.
+    This section looks at when pickups happened and which pickup and dropoff zones
+    were most common.
     """)
 
     hourly = f.groupby(
         ["pickup_date", "pickup_hour"],
         as_index=False
     ).agg(
-        trips=("VendorID", "count"),
-        median_fare=("total_amount", "median")
+        trips=("VendorID", "count")
     )
 
     c1, c2 = st.columns(2)
@@ -204,13 +204,11 @@ with study_tab:
             sample,
             x="trip_distance",
             y="total_amount",
-            color="payment_label",
             opacity=0.35,
             title="Fare vs. trip distance",
             labels={
                 "trip_distance": "Distance (miles)",
-                "total_amount": "Total amount ($)",
-                "payment_label": "Payment"
+                "total_amount": "Total amount ($)"
             }
         ),
         use_container_width=True
@@ -265,7 +263,7 @@ with source_tab:
     """)
 
     st.caption(
-        "Unusual trips may appear in some charts due to missing data in some columns of ~3,000 trips."
+        "The dashboard includes the filtered taxi records, so unusual trips may still appear in some charts."
     )
 
     audit = pd.DataFrame({
@@ -279,7 +277,7 @@ with source_tab:
         ],
         "Value": [
             f"{len(df):,}",
-            f"{df.shape:,}",
+            f"{df.shape[1]:,}",
             f"{len(f):,}",
             f"{df.duplicated().sum():,}",
             str(df.tpep_pickup_datetime.min()),
