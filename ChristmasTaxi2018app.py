@@ -45,12 +45,10 @@ def load_data():
 
 df = load_data()
 
-st.title("🚕 NYC Yellow Taxi Trips: Christmas Eve–Christmas Day 2018")
+st.title("NYC Yellow Taxi Trips: Christmas Eve–Christmas Day 2018")
 
 st.markdown("""
-This dashboard explores NYC yellow taxi trips from Christmas Eve and Christmas Day 2018.
-I focused on when trips were busiest, what the trips usually looked like, and which taxi zones
-appeared most often.
+Help the Metropolitan Transit Association understand NYC yellow taxi trips from Christmas Eve and Christmas Day 2018.
 """)
 
 st.sidebar.header("Filters")
