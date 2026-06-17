@@ -4,7 +4,7 @@ import numpy as np
 import plotly.express as px
 
 st.set_page_config(
-    page_title="NYC Yellow Taxi Holiday Dashboard",
+    page_title="NYC Taxi Holiday Dashboard",
     page_icon="🚕",
     layout="wide"
 )
