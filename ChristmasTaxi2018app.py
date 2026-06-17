@@ -57,13 +57,13 @@ pickup_borough_options = sorted(df["PU_Borough"].dropna().unique())
 dropoff_borough_options = sorted(df["DO_Borough"].dropna().unique())
 
 selected_pickup_boroughs = st.sidebar.multiselect(
-    "Pickup borough",
+    "Pickup Location",
     pickup_borough_options,
     default=pickup_borough_options
 )
 
 selected_dropoff_boroughs = st.sidebar.multiselect(
-    "Dropoff borough",
+    "Dropoff Location",
     dropoff_borough_options,
     default=dropoff_borough_options
 )
