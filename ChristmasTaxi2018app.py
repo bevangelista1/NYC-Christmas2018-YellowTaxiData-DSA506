@@ -149,19 +149,6 @@ with explore_tab:
 
     c3, c4 = st.columns(2)
 
-    pay_counts = f["payment_label"].value_counts().reset_index()
-    pay_counts.columns = ["Payment type", "Trips"]
-
-    c3.plotly_chart(
-        px.bar(
-            pay_counts,
-            x="Payment type",
-            y="Trips",
-            title="Trips by payment type"
-        ),
-        use_container_width=True
-    )
-
     c4.plotly_chart(
         px.box(
             f,
@@ -292,7 +279,7 @@ with source_tab:
         ],
         "Value": [
             f"{len(df):,}",
-            f"{df.shape[1]:,}",
+            f"{df.shape:,}",
             f"{len(f):,}",
             f"{df.duplicated().sum():,}",
             str(df.tpep_pickup_datetime.min()),
