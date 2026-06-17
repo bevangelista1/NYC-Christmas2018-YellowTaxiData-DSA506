@@ -45,10 +45,12 @@ def load_data():
 
 df = load_data()
 
-st.title("🚕 NYC Department of Transportation: Christmas 2018 Yellow Taxi Trips")
+st.title("🚕 NYC Yellow Taxi Trips: Christmas Eve–Christmas Day 2018")
 
 st.markdown("""
-Track yellow taxi trips in New York City during Christmas Eve and Christmas Day 2018!
+This dashboard looks at yellow taxi trips in New York City during Christmas Eve and Christmas Day 2018.
+The goal is to understand when taxi demand was highest, what typical trips looked like, and which areas
+had the most pickup and dropoff activity.
 """)
 
 st.sidebar.header("Filters")
@@ -77,26 +79,11 @@ distance_range = st.sidebar.slider(
     (0.0, max(1.0, round(max_distance, 1)))
 )
 
-keep_plausible = st.sidebar.checkbox(
-    "Use plausible trip filter",
-    value=True,
-    help="Keeps trips with positive duration, reasonable distance, and nonnegative total amount."
-)
-
 f = df[
     (df["trip_distance"].between(distance_range[0], distance_range[1])) &
     (df["PU_Borough"].isin(selected_pickup_boroughs)) &
     (df["DO_Borough"].isin(selected_dropoff_boroughs))
 ].copy()
-
-if keep_plausible:
-    f = f[
-        (f["trip_duration_min"] > 0) &
-        (f["trip_duration_min"] <= 180) &
-        (f["trip_distance"] > 0) &
-        (f["trip_distance"] <= 100) &
-        (f["total_amount"] >= 0)
-    ]
 
 k1, k2, k3, k4, k5 = st.columns(5)
 
@@ -124,10 +111,8 @@ with quest_tab:
     2. What did typical trips look like in distance, duration, and fare amount?
     3. Which pickup and dropoff areas had the most activity?
 
-    A few data issues should be kept in mind. Some trips have very long distances, very long durations,
-    zero distances, or unusual fare amounts. The plausible trip filter helps remove some of these cases,
-    but it is optional so the original patterns can still be compared. The goal is to understand when taxi demand was highest, 
-    what typical trips looked like, and which areas had the most pickup and dropoff activity.
+    Some taxi records may have unusual distances, durations, or fare amounts, so the results should be read
+    as general patterns rather than perfect measurements.
     """)
 
 with explore_tab:
@@ -204,8 +189,7 @@ with study_tab:
         as_index=False
     ).agg(
         trips=("VendorID", "count"),
-        median_fare=("total_amount", "median"),
-        median_tip_pct=("tip_pct", "median")
+        median_fare=("total_amount", "median")
     )
 
     c1, c2 = st.columns(2)
@@ -286,6 +270,7 @@ with source_tab:
     **Taxi zone lookup:** TLC taxi zone lookup table, used to translate pickup and dropoff location IDs.  
     **Lookup-table NYC.gov source URL:** https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page  
     **Access dates:** June 15 and June 16, 2026.  
+    **Dataset used here:** Christmas Eve–Christmas Day 2018 yellow taxi trips.  
     **Terms of Use:** https://www.nyc.gov/main/terms-of-use  
 
     To refresh the data, a newer TLC yellow taxi dataset could be downloaded from NYC Open Data and joined
@@ -293,7 +278,7 @@ with source_tab:
     """)
 
     st.caption(
-        "The plausible trip filter is optional so viewers can compare the original data with a cleaner version."
+        "The dashboard includes the filtered taxi records, so unusual trips may still appear in some charts."
     )
 
     c1, c2 = st.columns([1, 1])
