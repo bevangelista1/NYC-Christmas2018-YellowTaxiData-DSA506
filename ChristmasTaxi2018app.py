@@ -278,22 +278,7 @@ with source_tab:
     """)
 
     st.caption(
-        "The dashboard includes the filtered taxi records, so unusual trips may still appear in some charts."
-    )
-
-    c1, c2 = st.columns([1, 1])
-
-    missing = df.isna().mean().reset_index()
-    missing.columns = ["Column", "Missing share"]
-
-    c1.plotly_chart(
-        px.bar(
-            missing,
-            x="Column",
-            y="Missing share",
-            title="Missing values by column"
-        ),
-        use_container_width=True
+        "Unusual trips may appear in some charts due to missing data in some columns of ~3,000 trips."
     )
 
     audit = pd.DataFrame({
@@ -315,6 +300,7 @@ with source_tab:
         ]
     })
 
-    c2.dataframe(audit, hide_index=True, use_container_width=True)
+    st.dataframe(audit, hide_index=True, use_container_width=True)
 
+    st.subheader("Sample rows")
     st.dataframe(df.head(25), use_container_width=True)
