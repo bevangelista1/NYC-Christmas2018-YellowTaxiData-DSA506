@@ -93,9 +93,8 @@ k3.metric("Median duration", f"{f['trip_duration_min'].median():.1f} min" if len
 k4.metric("Median total fare", f"${f['total_amount'].median():.2f}" if len(f) else "—")
 k5.metric("Median tip %", f"{f['tip_pct'].median():.1f}%" if len(f) else "—")
 
-overview_tab, metrics_tab, patterns_tab, source_tab = st.tabs([
+overview_tab, patterns_tab, source_tab = st.tabs([
     "Overview & FAQ",
-    "Taxi Trip Metrics",
     "Trip Patterns",
     "Data Source"
 ])
@@ -110,19 +109,20 @@ with overview_tab:
     This dashboard focuses on three questions:
 
     1. When were yellow taxi pickups busiest?
-    2. What did typical trips look like in distance, duration, and fare amount?
-    3. Which pickup and dropoff areas had the most activity?
+    2. What did typical trips look like in distance and fare amount?
+    3. Which pickup and dropoff zones appeared most often?
 
     Some taxi records may have unusual distances, durations, or fare amounts, so the results
     should be read as general patterns rather than perfect measurements.
     """)
 
-with metrics_tab:
-    st.subheader("Taxi trip metrics")
+with patterns_tab:
+    st.subheader("Trip patterns")
 
     st.markdown("""
-    These charts show the overall pattern of taxi trips, including trip distance,
-    fare amount, and trip duration by day.
+    This section looks at taxi activity during Christmas Eve and Christmas Day. The charts show
+    when pickups were busiest, how trip distance and fare amounts were distributed, how fare relates
+    to distance, and which pickup and dropoff zones appeared most often.
     """)
 
     c1, c2 = st.columns(2)
@@ -149,29 +149,6 @@ with metrics_tab:
         use_container_width=True
     )
 
-    st.plotly_chart(
-        px.box(
-            f,
-            x="pickup_day",
-            y="trip_duration_min",
-            points=False,
-            title="Trip duration by pickup day",
-            labels={
-                "trip_duration_min": "Duration (min)",
-                "pickup_day": "Pickup day"
-            }
-        ),
-        use_container_width=True
-    )
-
-with patterns_tab:
-    st.subheader("Trip patterns")
-
-    st.markdown("""
-    This section looks at when pickups happened and which pickup and dropoff zones
-    were most common.
-    """)
-
     hourly = f.groupby(
         ["pickup_date", "pickup_hour"],
         as_index=False
@@ -179,9 +156,9 @@ with patterns_tab:
         trips=("VendorID", "count")
     )
 
-    c1, c2 = st.columns(2)
+    c3, c4 = st.columns(2)
 
-    c1.plotly_chart(
+    c3.plotly_chart(
         px.line(
             hourly,
             x="pickup_hour",
@@ -199,7 +176,7 @@ with patterns_tab:
 
     sample = f.sample(min(len(f), 20000), random_state=42) if len(f) > 0 else f
 
-    c2.plotly_chart(
+    c4.plotly_chart(
         px.scatter(
             sample,
             x="trip_distance",
@@ -222,9 +199,9 @@ with patterns_tab:
     do = f["DO_Label"].value_counts().head(top_n).reset_index()
     do.columns = ["Dropoff zone", "Trips"]
 
-    c3, c4 = st.columns(2)
+    c5, c6 = st.columns(2)
 
-    c3.plotly_chart(
+    c5.plotly_chart(
         px.bar(
             pu,
             x="Trips",
@@ -235,7 +212,7 @@ with patterns_tab:
         use_container_width=True
     )
 
-    c4.plotly_chart(
+    c6.plotly_chart(
         px.bar(
             do,
             x="Trips",
@@ -251,12 +228,12 @@ with source_tab:
 
     st.markdown("""
     **Trip data source:** NYC Taxi & Limousine Commission / NYC Open Data, 2018 Yellow Taxi Trip Data.  
-    **Original trip-data URL:** https://data.cityofnewyork.us/Transportation/2018-Yellow-Taxi-Trip-Data/t29m-gskq  
+    **Original trip-data URL:** [2018 Yellow Taxi Trip Data](https://data.cityofnewyork.us/Transportation/2018-Yellow-Taxi-Trip-Data/t29m-gskq)  
     **Taxi zone lookup:** TLC taxi zone lookup table, used to translate pickup and dropoff location IDs.  
-    **Lookup-table NYC.gov source URL:** https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page  
+    **Lookup-table NYC.gov source URL:** [TLC Trip Record Data](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page)  
     **Access dates:** June 15 and June 16, 2026.  
     **Dataset used here:** Christmas Eve–Christmas Day 2018 yellow taxi trips.  
-    **Terms of Use:** https://www.nyc.gov/main/terms-of-use  
+    **Terms of Use:** [NYC Terms of Use](https://www.nyc.gov/main/terms-of-use)  
 
     To refresh the data, a newer TLC yellow taxi dataset could be downloaded from NYC Open Data and joined
     with the taxi zone lookup table in the same way.
