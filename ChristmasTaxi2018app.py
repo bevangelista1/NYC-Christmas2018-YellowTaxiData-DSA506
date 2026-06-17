@@ -45,7 +45,7 @@ def load_data():
 
 df = load_data()
 
-st.title("🚕 NYC Yellow Taxi Trips: Christmas Eve–Christmas Day 2018")
+st.title("🚕 NYC Yellow Taxi Trips: Christmas Eve–Christmas Day 2018 🎄")
 
 st.markdown("""
 This dashboard looks at yellow taxi trips in New York City during Christmas Eve and Christmas Day 2018.
