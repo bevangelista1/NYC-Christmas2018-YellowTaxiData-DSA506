@@ -45,12 +45,10 @@ def load_data():
 
 df = load_data()
 
-st.title("🚕 NYC Yellow Taxi Trips: Christmas Eve–Christmas Day 2018")
+st.title("🚕 NYC Department of Transportation Yellow Taxi Trips: Christmas Eve – Christmas Day 2018")
 
 st.markdown("""
-This dashboard looks at yellow taxi trips in New York City during Christmas Eve and Christmas Day 2018.
-The goal is to understand when taxi demand was highest, what typical trips looked like, and which areas
-had the most pickup and dropoff activity.
+Track yellow taxi trips in New York City during Christmas Eve and Christmas Day 2018!
 """)
 
 st.sidebar.header("Filters")
@@ -128,7 +126,8 @@ with quest_tab:
 
     A few data issues should be kept in mind. Some trips have very long distances, very long durations,
     zero distances, or unusual fare amounts. The plausible trip filter helps remove some of these cases,
-    but it is optional so the original patterns can still be compared.
+    but it is optional so the original patterns can still be compared. The goal is to understand when taxi demand was highest, 
+    what typical trips looked like, and which areas had the most pickup and dropoff activity.
     """)
 
 with explore_tab:
@@ -287,7 +286,6 @@ with source_tab:
     **Taxi zone lookup:** TLC taxi zone lookup table, used to translate pickup and dropoff location IDs.  
     **Lookup-table NYC.gov source URL:** https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page  
     **Access dates:** June 15 and June 16, 2026.  
-    **Dataset used here:** Christmas Eve–Christmas Day 2018 yellow taxi trips.  
     **Terms of Use:** https://www.nyc.gov/main/terms-of-use  
 
     To refresh the data, a newer TLC yellow taxi dataset could be downloaded from NYC Open Data and joined
