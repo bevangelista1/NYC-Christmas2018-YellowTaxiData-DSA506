@@ -97,7 +97,7 @@ quest_tab, explore_tab, study_tab, source_tab = st.tabs([
     "Overview & FAQ",
     "Taxi Trip Metrics",
     "Trip Patterns",
-    "Data Source"
+    "Data Source Information"
 ])
 
 with quest_tab:
