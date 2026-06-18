@@ -111,7 +111,7 @@ with overview_tab:
     """)
 
 with patterns_tab:
-    st.subheader("Trip patterns from EWR Airport to the B-Q-E")
+    st.subheader("Trip patterns from EWR Airport to the BQE")
 
     c1, c2 = st.columns(2)
 
