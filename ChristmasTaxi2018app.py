@@ -111,13 +111,7 @@ with overview_tab:
     """)
 
 with patterns_tab:
-    st.subheader("Trip patterns")
-
-    st.markdown("""
-    This section looks at taxi activity during Christmas Eve and Christmas Day. The charts show
-    when pickups were busiest, how trip distance and fare amounts were distributed, how fare relates
-    to distance, and which pickup and dropoff zones appeared most often.
-    """)
+    st.subheader("Trip patterns from EWR Airport to the B-Q-E")
 
     c1, c2 = st.columns(2)
 
