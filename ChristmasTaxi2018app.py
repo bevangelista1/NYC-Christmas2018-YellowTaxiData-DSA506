@@ -99,7 +99,7 @@ with overview_tab:
     st.markdown("""
     Holiday taxi travel can be affected by shopping, airport trips, tourism, restaurants,
     and late-night activity. Use the data to understand the flow of people throughout the city on an understaffed holiday
-    where thousands of people require transportation.
+    where thousands of people require transportation, from EWR airport in New Jersey to the Brooklyn-Queens Expressway.
     
     1. When were yellow taxi pickups busiest?
     2. What did typical trips look like in distance and fare amount?
@@ -111,7 +111,6 @@ with overview_tab:
     """)
 
 with patterns_tab:
-    st.subheader("Trip patterns from EWR Airport to the BQE")
 
     c1, c2 = st.columns(2)
 
