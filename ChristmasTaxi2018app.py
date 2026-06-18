@@ -105,7 +105,7 @@ with overview_tab:
     2. What did typical trips look like in distance and fare amount?
     3. Which pickup and dropoff zones appeared most often?
 
-    Use the filters on the side to adjust the data and explore the Trip Patterns tab above, and see the metrics on top change.
+    With the filters on the side, adjust the data and explore the Trip Patterns tab above, and see the metrics on top change.
     Some taxi records might have unusual distances, durations, or fare amounts, so the results
     should be read as general patterns rather than perfect measurements - real data is not perfect!
     """)
