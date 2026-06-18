@@ -47,10 +47,6 @@ df = load_data()
 
 st.title("NYC Yellow Taxi Trips: Christmas Eve–Christmas Day 2018")
 
-st.markdown("""
-Help the Metropolitan Transit Association understand NYC yellow taxi trips from Christmas Eve and Christmas Day 2018.
-""")
-
 st.sidebar.header("Filters")
 
 pickup_borough_options = sorted(df["PU_Borough"].dropna().unique())
@@ -102,10 +98,9 @@ with overview_tab:
 
     st.markdown("""
     Holiday taxi travel can be affected by shopping, airport trips, tourism, restaurants,
-    and late-night activity.
-
-    This dashboard focuses on three questions:
-
+    and late-night activity. Use the data to understand the flow of people throughout the city on an understaffed holiday
+    where thousands of people require transportation.
+    
     1. When were yellow taxi pickups busiest?
     2. What did typical trips look like in distance and fare amount?
     3. Which pickup and dropoff zones appeared most often?
